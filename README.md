@@ -4,14 +4,12 @@
 
 You can clone this repository to create this application.
 
-`app.py` is the file which does all the work. Make sure to update the `username` in app.py before running the script. 
+`app.py` is the file which does all the work. 
 
 As we are using sensitive information like tokens and secrets, we will use **Kubernetes Secrets** to store these and access them in the code
 
-- `consumer_key` - Consumer Key
-- `consumer_secret` - Consumer Secret
-- `access_token` - OAuth Access Token
-- `access_token_secret` - OAuth Access Token Secret
+- `chat_token` - Chat Token
+- `chat_id` - ChatRoom ID
 
 Start by encoding all the keys and secrets
 
