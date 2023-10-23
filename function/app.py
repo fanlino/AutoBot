@@ -2,13 +2,16 @@ import os
 import telegram
 import asyncio
 from datetime import datetime
+from dotenv import load_dotenv
+
+load_dotenv(verbose=True)
 
 # Path to Kubernetes Secrects
 token_path = "/secrets/default/telegram-secret/chat_token"
 id_path = "/secrets/default/telegram-secret/chat_id"
 
-chat_token = os.environ.get('CHAT_TOKEN')
-chat_id = os.environ.get('CHAT_ID')
+chat_token = os.getenv('CHAT_TOKEN')
+chat_id = os.getenv('CHAT_ID')
 
 if chat_token == None or chat_id == None:
     try:
