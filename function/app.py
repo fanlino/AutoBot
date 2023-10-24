@@ -1,8 +1,11 @@
 import os
+import time
 import telegram
 import asyncio
 from datetime import datetime
 from dotenv import load_dotenv
+from util import utctime_to_localtime
+
 
 load_dotenv(verbose=True)
 
@@ -12,6 +15,7 @@ id_path = "/secrets/default/telegram-secret/chat_id"
 
 chat_token = os.getenv('CHAT_TOKEN')
 chat_id = os.getenv('CHAT_ID')
+
 
 if chat_token == None or chat_id == None:
     try:
@@ -25,6 +29,7 @@ if chat_token == None or chat_id == None:
         print("Cannot read from Kubernetes Secrets")
         exit(1)
 
+
 async def SendMessage(msg):
     try:
         bot = telegram.Bot(token=chat_token)
@@ -32,12 +37,17 @@ async def SendMessage(msg):
         await bot.send_message(chat_id=chat_id, text=msg)
     except Exception as ex:
         print(ex)
-    return "Sent message"
+    return f"Sent message {msg}"
+
+
+async def run():
+    time_info = utctime_to_localtime(datetime.utcnow())
+    return await SendMessage("Server is up at " + str(time_info.hour) + ":" + str(time_info.minute))
+
 
 def main():
-    message = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
-    result = asyncio.run(SendMessage(message))
-    return result
+    return asyncio.run(run())
+
 
 if __name__ == "__main__":
     print(main())
